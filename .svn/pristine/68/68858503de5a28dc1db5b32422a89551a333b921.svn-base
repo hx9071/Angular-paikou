@@ -1,0 +1,47 @@
+<ion-content>
+
+    <div class="login-container">
+
+        <article>
+
+            <!-- logo -->
+            <section class="title">
+                <figure>
+                    <img src="assets/images/login/logo.png" alt="title">
+                </figure>
+            </section>
+
+            <section class="login-form">
+
+                <form>
+                    <!-- 用户名 -->
+                    <ion-item class="login-form-input" lines="none">
+
+                        <ion-input type="text" name="username" placeholder="请输入用户名" [(ngModel)]="userName">
+
+                        </ion-input>
+                        <ion-icon class="login-form-icon" slot="start" name="person"></ion-icon>
+
+                    </ion-item>
+
+                    <!-- 密码 -->
+                    <ion-item class="login-form-input" lines="none">
+
+                        <ion-input type="{{passwordType}}" name="userpwd" placeholder="请输入密码" [(ngModel)]="password"></ion-input>
+                        <ion-icon class="login-form-icon" slot="start" name="lock"></ion-icon>
+                        <ion-icon class="login-form-icon" style="border: none;" slot="end" name="eye" (click)="togglePassword()"></ion-icon>
+
+                    </ion-item>
+
+                    <!-- 登陆按钮 -->
+                    <button class="check-on" (click)="loginClick()">登 录</button>
+
+                </form>
+
+            </section>
+
+        </article>
+
+    </div>
+
+</ion-content>

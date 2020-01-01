@@ -1,0 +1,88 @@
+@import "../../../style/mixin.scss";
+ion-content {
+    --padding-start: 0;
+    --padding-end: 0;
+}
+
+.login-container {
+    width: 100%;
+    min-height: 100%;
+    @include bis('src/assets/images/login/login_bg.png', 100%, 100%);
+    padding: 0;
+    margin: 0;
+    // logo
+    .title {
+        padding: 15% 0;
+        figure {
+            text-align: center;
+            img {
+                display: inline-block;
+            }
+            figcaption {
+                margin-top: 16px;
+                text-align: center;
+                color: #fff;
+                font-size: 22px;
+            }
+        }
+    }
+    // 输入框
+    .login-form {
+        form {
+            padding: 0 5.5%;
+            background-color: #fff;
+            width: 90%;
+            margin: 0 auto;
+            border-radius: 5px;
+            padding-bottom: 16px;
+            padding-top: 13px;
+            .login-form-input {
+                display: flex;
+                display: -webkit-flex;
+                align-items: center;
+                -webkit-align-items: center;
+                margin-bottom: 30px;
+                height: 60px;
+                color: #d5d5d5;
+                border-bottom: 1px solid #d5d5d5;
+            }
+            .login-form-icon {
+                padding-right: 10px;
+                color: #2c9ef6;
+                border-right: 1px solid #d5d5d5;
+            }
+            input::-webkit-input-placeholder {
+                color: #5c5c5c;
+                font-size: 16px;
+            }
+            input {
+                margin-bottom: 40px;
+                padding: 12px 44px 12px 14px;
+                width: 100%;
+                height: 50px;
+                font-size: 16px;
+                color: #5c5c5c;
+                background: #fff;
+                border: 1px solid #c5c5c5;
+                border-radius: 40px;
+            }
+        }
+        label {
+            position: relative;
+            width: 100%;
+        }
+    }
+    // 登陆按钮
+    .check-on {
+        height: 46px;
+        line-height: 46px;
+        width: 100%;
+        border-radius: 50px;
+        outline: none;
+        font-size: 20px;
+        color: #fff;
+        text-align: center;
+        background: #2d9ef6;
+        cursor: pointer;
+    }
+}

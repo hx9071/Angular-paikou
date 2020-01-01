@@ -1,0 +1,43 @@
+.cur-loc {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    right: 10px;
+    top: 135px;
+    background: #fff url(../../../../assets/images/tabs-track/current.png) no-repeat center;
+    background-size: 22px;
+    border-radius: 5px;
+    box-shadow: #ddd 0 0 10px;
+}
+
+.cur-img{
+    position: absolute;
+    top: calc(50% - 16px);
+    left: calc(50% - 12px);
+    background: url(../../../../assets/images/tabs-track/position.png) no-repeat center ;
+    background-size: 100%;
+    width: 24px;
+    height: 32px;
+}
+
+.demo-map 
+{ 
+    height:100%;
+ }
+.location{
+    padding:10px 2px;
+    margin: 0px;
+    top:78%;
+    width: 96%;
+    left: 2%;
+    position: absolute;
+    background-color: white;
+    border-radius: 3%;
+    ion-col{
+        padding: 0px
+    }
+    ion-row{
+        margin: 5px 0px;
+        padding: 5px 0px;
+    }
+}

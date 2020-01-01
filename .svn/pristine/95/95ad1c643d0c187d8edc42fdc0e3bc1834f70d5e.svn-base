@@ -1,0 +1,111 @@
+<!-- 排扣档案 -->
+<ion-header class="detaileHeader">
+    <ion-toolbar>
+        <ion-buttons>
+            <ion-back-button mode="ios" text="" style="--color:white;background-color: rgb(56,127,255);position: fixed; left:10px;z-index: 1;">
+            </ion-back-button>
+
+            <!-- <ion-icon (click)="back()" name="arrow-back" mode="ios"  style="--color:white;background-color: rgb(56,127,255);position: fixed; left:10px;z-index: 1;font-size: 28px;"></ion-icon> -->
+            <ion-title style="font-size: 17px">
+                详情信息
+            </ion-title>
+            <ion-col size="2" style="position: fixed;right: -27px;padding: 3px 0px 0px 0px;font-size: 18px'" (click)="toModification()">
+                <img src="../../../../assets/images/tabs-achives/reset.png " width="22px">
+            </ion-col>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+<ion-content class="detaileContent ">
+    <ion-grid class="listview " *ngFor="let item of PutletDetail ">
+        <ion-row>
+            <ion-col class="rowstyle " size="4">入湖排口名称：</ion-col>
+            
+            <ion-col class="secondstyle ">{{item.pipeName}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle " size="4 ">入湖排口编号：</ion-col>
+            <ion-col class="secondstyle ">{{item.pipeCode}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle " size="4 ">湖泊名称：</ion-col>
+            <ion-col class="secondstyle ">{{item.lakeName}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">水环境功能区划：</ion-col>
+            <ion-col class="secondstyle ">{{item.waterEnvDivisionName}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle " size="3 ">所在地：</ion-col>
+            <ion-col class="outletdetail ">{{item.location}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle " size="4 ">排口位置描述：</ion-col>
+            <ion-col class="secondstyle ">{{item.pipeLocation}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">经度：</ion-col>
+            <ion-col class="secondstyle ">{{item.lon}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">纬度：</ion-col>
+            <ion-col class="secondstyle ">{{item.lat}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">排口类型：</ion-col>
+            <ion-col class="secondstyle ">{{item.pipeTypeName}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">管道材质：</ion-col>
+            <ion-col class="secondstyle ">{{item.pipeMaterialAualityName}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">排口尺寸(mm)：</ion-col>
+            <!-- <ion-col class="secondstyle ">{{item.pipeSize}} &nbsp;<span>mm</span></ion-col> -->
+            <ion-col class="secondstyle ">{{item.pipeSize}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">管底绝对高程(m)：</ion-col>
+            <!-- <ion-col class="secondstyle ">{{item.pipeButtomElevation}}&nbsp;<span>lm</span></ion-col> -->
+            <ion-col class="secondstyle ">{{item.pipeButtomElevation}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle ">现场水质感官：</ion-col>
+            <ion-col class="secondstyle ">{{item.waterQualitySenseName}}</ion-col>
+        </ion-row>
+        <ion-row id="secondstylediv ">
+            <ion-col class="rowstyle " size="3 ">备注：</ion-col>
+            <ion-col class="secondstyle ">{{item.remarks}}</ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- 水质监测数据 -->
+    <ion-grid class="waterquality " *ngIf="shoWaterquality ">
+        <div class="title "> <span>水质监测数据</span> </div>
+        <ion-row class="boxhead ">
+            <ion-col size="2 "> 序号 </ion-col>
+            <ion-col size="2 ">监测时间 </ion-col>
+          
+            <ion-col size="2 "> 流量(m<sup>3</sup>/d)</ion-col>
+            <ion-col size="2 ">pH </ion-col>
+            <ion-col size="2 "> COD(mg/L)</ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of WaterMonData; let i=index ">
+            <ion-col size="2 "> {{ i + 1 }}</ion-col>
+            <ion-col size="2 ">{{ item.monitoringTime | date:'yyy-M'}}</ion-col>
+            <ion-col size="2 ">{{item.waterPeriod }}</ion-col>
+            <ion-col size="2 ">{{ item.waterYield }}</ion-col>
+            <ion-col size="2 ">{{ item.PH }}</ion-col>
+            <ion-col size="2 ">{{ item.COD }}</ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <!-- 现场照片 -->
+    <ion-grid class="photofscene ">
+        <div class="title "> <span>现场照片</span> </div>
+        <ion-row>
+            <ion-col size="4 " *ngFor="let img of imgshow " class="ion-align-items-center ">
+                <img [src]="img " alt="location " (click)="presentModal(imgshow) " width="80px " height="80px " />
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

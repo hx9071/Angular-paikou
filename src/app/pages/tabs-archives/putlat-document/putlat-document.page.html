@@ -1,0 +1,123 @@
+<!-- 排口档案 -->
+<!-- <ion-header class="rfHeader"> -->
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons>
+            <ion-col *ngIf="expression" (click)="exchangepage()">
+                <ion-icon name="arrow-back" style="width: 31.44px;height: 31.44px;" mode="ios"></ion-icon>
+            </ion-col>
+            <ion-title>
+                排口档案
+            </ion-title>
+            <!-- <ion-icon name="add" (click)="getAdd()" style="position: fixed;right: 20px;color: white;z-index:1;height: 25px;width: 25px; ">
+        新建
+      </ion-icon> -->
+            <ion-col size="2" style="position: fixed;right: -27px;padding: 3px 0px 0px 0px">
+                <img src="../../../../assets/images/form3.png" (click)="getAdd()" alt="location" width="22px">
+            </ion-col>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="rfContent">
+
+    <ion-refresher slot="fixed" (ionRefresh)=" refreshList($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="加载中..." refreshingSpinner="circles"
+            refreshingText="刷新...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <!-- 搜索组件 -->
+    <app-search-modal *ngIf="isOpenSearch" [config]="searchConfig" (getSearchText)="shouldSearch($event)">
+    </app-search-modal>
+    <ng-container *ngIf="!isOpenSearch">
+
+        <!-- 搜索start -->
+        <ion-card class="content-card">
+
+            <ion-item class="content-card-search bottom-line" lines="none">
+
+                <ion-searchbar placeholder=" 请输入排口名称 " [value]="searchParams.pipeName" mode="ios"
+                    (click)="openSearchModal(true)">
+
+                </ion-searchbar>
+
+            </ion-item>
+        </ion-card>
+    </ng-container>
+    <!-- <div *ngIf="!showSearch"> -->
+    <div *ngIf="!showSearch">
+        <ion-grid class="filelist" *ngFor="let item of outletcategory">
+            <ion-row class="outletadress">
+                <ion-col class="name">{{item.pipeName}}</ion-col>
+                <!-- <ion-col class="" size="2" (click)="getExchange(item.uuid);$event.stopPropagation()">修改</ion-col> -->
+                <!-- <ion-col class="location" size="1" [routerLink]="['/tabs/track']" routerDirection="root" (click)="$event.stopPropagation()" [queryParams]="item"> -->
+                <ion-col class="location" size="1" (click)="goMap(item);$event.stopPropagation()">
+                    <img src="../../../../assets/icon/location.png" alt="location" height="16px" width="14px">
+                </ion-col>
+            </ion-row>
+
+            <ion-row class="rowlistfirst" (click)="getdetaile(item.uuid)">
+                <ion-col class="lakename" size="3">湖泊名称 : </ion-col>
+                <ion-col class="lakename">{{item.lakeName}}</ion-col>
+            </ion-row>
+            <ion-row class="rowlistfirst" (click)="getdetaile(item.uuid)">
+                <ion-col class="lakename" size="3" style="margin-bottom: 10px">排口位置 :</ion-col>
+                <ion-col class="lakename">{{item.pipeLocation}}</ion-col>
+            </ion-row>
+            <!-- <ion-row class="rowlistfirst" style="display: flex;justify-content: flex-end;border-top: 0.55px solid rgb(242, 242, 242);padding: 7px 0px 0px 0px">
+                <ion-col size="3">
+                    <div class="readfile" (click)="getdetaile(item.uuid)">查看档案</div>
+                </ion-col>
+                <ion-col size="3">
+                    <div class="readfile" (click)="getExchange(item.uuid)">修改档案</div>
+                </ion-col>
+            </ion-row> -->
+        </ion-grid>
+    </div>
+
+    <div *ngIf="showSearch">
+        <ion-grid class="filelist" *ngFor="let item of SpecificList">
+            <ion-row class="outletadress">
+                <ion-col class="name">{{item.pipeName}}</ion-col>
+                <ion-col class="location" size="1" [routerLink]="['/tabs/track']"
+                    [queryParams]="{latitude: item.lat, longitude: item.lon}">
+                    <img src="../../../../assets/icon/location.png" alt="location" height="16px" width="14px">
+                </ion-col>
+            </ion-row>
+
+            <ion-row class="rowlistfirst" (click)="getdetaile(item.uuid)">
+                <ion-col class="lakename" size="3">河湖名称 : </ion-col>
+                <ion-col class="lakename">{{item.lakeName}}</ion-col>
+            </ion-row>
+            <ion-row class="rowlistfirst" (click)="getdetaile(item.uuid)">
+                <ion-col class="lakename" size="3" style="margin-bottom: 10px">排口位置 :</ion-col>
+                <ion-col class="lakename">{{item.pipeLocation}}</ion-col>
+            </ion-row>
+            <!-- <ion-row class="rowlistfirst" style="display: flex;justify-content: flex-end;border-top: 0.55px solid rgb(242, 242, 242);padding: 7px 0px 0px 0px">
+
+                <ion-col size="3">
+                    <div class="readfile" (click)="getdetaile(item.uuid)">查看档案</div>
+                </ion-col>
+                <ion-col size="3">
+                    <div class="readfile" (click)="getExchange(item.uuid)">修改档案</div>
+                </ion-col>
+            </ion-row> -->
+        </ion-grid>
+
+
+    </div>
+    <!-- 上拉加载更多
+      <ion-infinite-scroll (ionInfinite)="loadMoreData($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="数据加载中...">
+          </ion-infinite-scroll-content>
+      </ion-infinite-scroll> -->
+
+    <!-- 上拉加载更多 -->
+    <ion-infinite-scroll (ionInfinite)="loadMoreData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="数据加载中...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

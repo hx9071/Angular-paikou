@@ -1,0 +1,42 @@
+// App Styles
+// ----------------------------------------------------------------------------
+// Put style rules here that you want to apply to the entire application. These 
+// styles are for the entire app and not just one component. Additionally, this 
+// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// and used throughout the application.
+
+ion-header {
+  ion-toolbar {
+    --background: #387fff;
+    color: #fff;
+  }
+
+  ion-buttons {
+    color: #fff;
+
+    ion-button {
+      color: #fff;
+    }
+  }
+}
+
+ion-back-button{
+  --color:#fff!important;
+}
+
+ion-app {
+  font-size: 16px;
+
+  .gap {
+    padding: 6px 4px;
+  }
+
+  .no-data-img {
+    margin: 0 auto;
+    width: 160px;
+    height: 200px;
+    background: url(src/assets/images/common/no_data_img.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}

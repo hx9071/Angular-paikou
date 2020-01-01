@@ -1,0 +1,42 @@
+.c-search-modal {
+    .search-box {
+        position: fixed;
+        width: 100%;
+        background-color: #fff;
+        z-index: 1;
+        .searchbar-left-aligned {
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 12px;
+            height: 44px;
+            width: calc(100% - 55px);
+            margin-top: 10px;
+            --background: #f8f8f8;
+            // --background:#fff;
+        }
+        .cancle-btn {
+            vertical-align: middle;
+            color: #20a4ec;
+            // color: #fff;
+            padding: 10px;
+            font-size: 14px;
+        }
+    }
+    .search-list {
+        width: 100%;
+        margin-top: 54px;
+        .close-btn {
+            position: absolute;
+            bottom: -1px;
+            width: 100%;
+            text-align: right;
+            background: #f8f8f8;
+            button {
+                background: transparent;
+                color: #666;
+                padding: 10px;
+                letter-spacing: 1px;
+            }
+        }
+    }
+}

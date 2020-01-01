@@ -1,0 +1,11 @@
+<div class="close-imgs" (click)="close()">
+    <img src="../../../assets/images/tabs-achives/close.png" width="15px" height="15px">
+</div>
+
+<ion-slides pager="true" [options]="slideOpts">
+    <ion-slide *ngFor="let item of pictures">
+        <div>
+            <img [src]="item" width="400px" height="800px">
+        </div>
+    </ion-slide>
+</ion-slides>

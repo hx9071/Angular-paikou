@@ -1,0 +1,401 @@
+import {Component, OnInit, NgZone, ChangeDetectorRef} from '@angular/core';
+import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
+
+import {Platform} from '@ionic/angular';
+
+import {HttpService} from '../../services/http-service/http.service';
+import {PublicService} from '../../services/public-service/public.service';
+
+@Component({
+  selector: 'app-tabs-track',
+  templateUrl: 'tabs-track.page.html',
+  styleUrls: ['tabs-track.page.scss']
+})
+export class TabsTrackPage implements OnInit {
+  // 排口列表
+  public pipeList: any = [];
+
+  // 当前选中位置信息
+  public selectedMakerInfo: any;
+
+  // 缩放级别
+  public zoomLevel: number;
+
+  // 是否展示底部内容信息窗口
+  public isShowFooterContent = false;
+
+  // 当前定位地址
+  public currentLocation: any = {};
+
+  // 用户当前定位地址
+  public userLocation: any = {};
+
+  // 是否显示图例模态框
+  public isShowLegendModal = false;
+
+  // 排口地图图标模型
+  public PIPE_TYPE_MARKER_IMG_MODEL: any = {};
+
+  // 图例弹框模型
+  public LEGEND_MODAL_MODEL: any = [];
+
+  constructor(private httpService: HttpService,
+              private publicService: PublicService,
+              private activeRoute: ActivatedRoute,
+              private router: Router,
+              private platform: Platform,
+              private zone: NgZone,
+              private changeDetectorRef: ChangeDetectorRef) {
+
+    // 路由监听
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+
+        if (event.urlAfterRedirects !== '/tabs/track') {
+          return;
+        }
+
+        this.routeWatcher();
+
+        if (this.isShowLegendModal) {
+          this.toggleLegendDialog();
+        }
+
+        this.showFooterContent(false);
+        console.log('in NavigationEnd');
+      }
+
+    });
+
+  }
+
+  ngOnInit() {
+
+    // 渲染静态视图数据
+    this.renderStaticView();
+
+    // 渲染异步数据
+    this.renderAsyncView();
+
+  }
+
+  /**
+   * 路由监听
+   */
+  private routeWatcher() {
+
+    console.log('in routerWatcher : success');
+
+    // 获取用户位置
+    const userLocation = JSON.parse(localStorage.getItem('userLocation')) || null;
+
+    // 通过路由经度纬度参数定位当前位置
+    if (this.activeRoute.snapshot.queryParams && this.activeRoute.snapshot.queryParams.hasOwnProperty('latitude')) {
+
+      this.currentLocation = Object.assign({}, this.activeRoute.snapshot.queryParams, {
+        addr: userLocation ? userLocation.addr : '暂未获取到当前位置信息'
+      });
+      return;
+    }
+
+    // 当前定位默认用户所在位置
+    this.currentLocation = userLocation || this.getDefaultLocation();
+
+    this.currentLocation.addr = (userLocation && userLocation.addr) ? userLocation.addr : '暂未获取到当前位置信息';
+
+  }
+
+  /**
+   * 渲染静态视图数据
+   */
+  private renderStaticView() {
+
+    console.log('in Track renderStaticView');
+
+    const userLocation = JSON.parse(localStorage.getItem('userLocation')) || null;
+
+    // 地图默认定位到武汉环保局
+    this.currentLocation = this.getDefaultLocation();
+
+    // 用户自身定位
+    this.userLocation = userLocation || {
+      latitude: 30.601622,
+      longitude: 114.27196
+    };
+
+    this.zoomLevel = 14;
+
+    this.initModel();
+
+  }
+
+  /**
+   * 获取不到用户位置时，设置默认地理位置
+   * @returns any
+   */
+  private getDefaultLocation(): any {
+    return {
+      latitude: 30.601622,
+      longitude: 114.27196,
+      addr: '武汉市环保局新华路422号'
+    };
+  }
+
+  /**
+   * 渲染异步视图数据
+   */
+  private renderAsyncView() {
+
+    this.getTrackReacord();
+
+  }
+
+  /**
+   * 获取排口档案列表数据
+   */
+  private getTrackReacord() {
+
+    const params = {
+      pipeName: '',
+    };
+
+    this.httpService.getTrackReacord(params, false, res => {
+
+      if (!res || res === 'error' || !res.data || !res.data.length) {
+        return;
+      }
+
+      this.pipeList = this.combinePipeList(res.data);
+
+      console.log('in getTrackReacord: pipeList', this.pipeList);
+    });
+  }
+
+  /**
+   * 组装管道列表
+   * @param list 管道列表
+   */
+  private combinePipeList(list: any = []) {
+
+    return list
+
+      .filter(item => item.lon && item.lat && item.pipeType)
+
+      .map(filteredItem => {
+
+        const newItem: any = {};
+
+        for (let key in filteredItem) {
+          newItem[key] = filteredItem[key] || '暂无信息';
+        }
+
+        return newItem;
+
+      });
+
+  }
+
+  /**
+   * 初始化数据模型
+   */
+  private initModel() {
+
+    this.PIPE_TYPE_MARKER_IMG_MODEL = {
+      1: 'assets/images/tabs-track/position_1.png',
+      2: 'assets/images/tabs-track/position_2.png',
+      3: 'assets/images/tabs-track/position_3.png'
+    };
+
+    this.LEGEND_MODAL_MODEL = [
+      {
+        name: '河沟和渠类',
+        imgUrl: 'assets/images/tabs-track/legend_1.png'
+      },
+      {
+        name: '管道类',
+        imgUrl: 'assets/images/tabs-track/legend_2.png'
+      },
+      {
+        name: '涵闸或泵站',
+        imgUrl: 'assets/images/tabs-track/legend_3.png'
+      }
+    ];
+
+  }
+
+  /**
+   * 地图初始化完成
+   * @param map 地图模版变量
+   */
+  mapComplete(map) {
+
+    console.log('in mapComplete: map', map);
+
+    if (this.platform.is('ios')) {
+      this.getUserAddressOnIos(map);
+    }
+
+  }
+
+  /**
+   * 利用高德地图api获取用户详细地址 IOS
+   * @param map 地图模版变量
+   */
+  private getUserAddressOnIos(map) {
+
+    // 视图模型别名
+    const vm = this;
+
+    map.getCity()
+
+      .then(res => {
+        console.log('in getCity: res', res);
+
+        const userLocation = JSON.parse(localStorage.getItem('userLocation')) || null;
+
+        // 针对ios设备无法获取详细地址做的优化
+        const locationAddress = `${res.province}${res.city}${res.district}`;
+
+        if (vm.userLocation.addr && vm.userLocation.addr === '暂未获取到当前位置信息' && locationAddress) {
+          vm.userLocation.addr = locationAddress;
+
+          userLocation.addr = locationAddress;
+          localStorage.setItem('userLocation', JSON.stringify(userLocation));
+
+          return;
+        }
+
+        if (!vm.userLocation.addr) {
+          vm.userLocation.addr = locationAddress ? locationAddress : '暂未获取到当前位置信息';
+        }
+      });
+
+  }
+
+  /**
+   * 地图事件监听
+   * @param object event
+   * @param string type 事件类型
+   */
+  onMapEvent(event, type) {
+
+    switch (type) {
+
+      case 'mapClick':
+        console.log('in onMapEvent: event', event);
+
+        this.didMapClick(event);
+        break;
+
+      default:
+        break;
+
+    }
+
+  }
+
+  /**
+   * 地图点事件监听
+   * @param object event
+   * @param string type 事件类型
+   */
+  onMarkerEvent(event, type) {
+
+    switch (type) {
+
+      case 'markerClick':
+        console.log('in onMarkerEvent: event', event);
+
+        this.didMakerClick(event);
+        break;
+
+      default:
+        break;
+
+    }
+
+  }
+
+  /**
+   * 打开/关闭 图例模态框
+   */
+  toggleLegendDialog() {
+    this.isShowLegendModal = !this.isShowLegendModal;
+  }
+
+  /**
+   * 点击地图
+   * @param object event
+   */
+  private didMapClick(event) {
+    console.log('in didMapClick: event', event);
+
+    if (!this.selectedMakerInfo) {
+      return;
+    }
+
+    this.showFooterContent(false);
+  }
+
+  /**
+   * 点击地图点
+   * @param object event
+   */
+  private didMakerClick(event) {
+
+    // 首次点击图例点或者点不同的图例点
+    if (!this.selectedMakerInfo) {
+
+      // 组装选择点对象信息
+      this.selectedMakerInfo = event.target.Le.extData;
+      this.selectedMakerInfo.amapId = event.target._amap_id;
+
+      this.showFooterContent(true);
+      return;
+    }
+
+    // 点击不同的图例点
+    if (this.selectedMakerInfo && this.selectedMakerInfo.amapId !== event.target._amap_id) {
+
+      this.showFooterContent(false);
+
+      this.zone.run(() => {
+        setTimeout(() => {
+
+          // 组装选择点对象信息
+          this.selectedMakerInfo = event.target.Le.extData;
+          this.selectedMakerInfo.amapId = event.target._amap_id;
+
+          this.showFooterContent(true);
+        }, 600);
+      });
+
+      return;
+    }
+
+    // 点击相同图例点
+    if (this.selectedMakerInfo.amapId === event.target._amap_id) {
+      this.showFooterContent(!this.selectedMakerInfo.isClicked);
+      return;
+    }
+
+  }
+
+  /**
+   * 显示底部内容框
+   * @param isShow 是否显示
+   */
+  private showFooterContent(isShow: boolean = false) {
+
+    this.isShowFooterContent = isShow;
+
+    if (this.selectedMakerInfo) {
+      this.selectedMakerInfo.isClicked = isShow;
+    }
+
+    // 强制触发视图更新
+    this.changeDetectorRef.detectChanges();
+
+  }
+
+}

@@ -1,0 +1,110 @@
+.tabs-static-content {
+
+  ion-row {
+    width: 100%;
+  }
+
+  ion-card-content {
+    padding: 0 .8em 1em;
+
+    ion-label {
+      font-size: .875em;
+    }
+
+    ion-label:nth-child(2) {
+      border-left: 1px solid #d6d6d6;
+    }
+  }
+
+  .search-dropdown-menu {
+    position: absolute;
+    top: 50px;
+    left: 6%;
+    width: 88%;
+  }
+
+  .charts {
+    margin: 0 auto;
+    height: 200px;
+    width: 96%;
+  }
+
+  .blue-bold {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #2c9ef6;
+  }
+
+  .bottom-line {
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .dot {
+    position: absolute;
+    height: 6px;
+    width: 6px;
+    background: #4c8dff;
+    top: 50%;
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+
+  .content-card {
+    margin: 0 0 10px 0;
+    border-radius: 0;
+    box-shadow: none;
+
+    &-search {
+      ion-searchbar {
+        padding: 0;
+        --icon-color: #839cbb;
+        --background: #eef2f6;
+        --placeholder-color: #839cbb;
+      }
+    }
+
+    &-hd {
+      font-size: 1em;
+
+      &-label {
+        padding-left: .5em;
+        font-size: 1.3em;
+
+        &::before {
+          content: '';
+          position: absolute;
+          height: 35%;
+          width: 3px;
+          left: 0;
+          top: 50%;
+          background: #2d9ef6;
+          transform: translateY(-50%);
+        }
+      }
+    }
+
+    &-bd {
+      width: 100%;
+      background: #fff;
+
+      ion-icon {
+        color: #c7c7c7;
+      }
+
+      p {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        text-indent: 2em;
+        overflow: hidden;
+      }
+
+      p:nth-child(2) {
+        text-align: right;
+      }
+
+    }
+
+  }
+
+}

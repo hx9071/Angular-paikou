@@ -1,0 +1,258 @@
+<!-- 排扣档案 -->
+<!-- <ion-header class="detaileHeader"> -->
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons>
+            <ion-back-button text="" style="--color:white;background-color: rgb(56,127,255);position: absolute; left:8px;z-index: 1;">
+            </ion-back-button>
+            <ion-title>
+                新建排口档案
+            </ion-title>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="detaileContent">
+
+    <app-search-modal *ngIf="isOpenSearch" [config]="searchConfig" (getSearchText)="shouldSearch($event)">
+    </app-search-modal>
+
+
+    <ion-grid class="listview">
+        <ion-row>
+            <ion-col size="5" class="rowstyle" style="margin-left: 4px">
+                <ion-icon name="medical" style="color:#b92222">
+                </ion-icon>入湖排口名称：</ion-col>
+            <ion-col class="outletdetail" style="margin-right: 17px">
+                <ion-textarea class="input" style="text-align: right;padding: 1rem 0 0 0;" position="floating" maxlength="20" placeholder="请输入入湖排口名称..." [(ngModel)]="PutletDetail.pipeName"></ion-textarea>
+
+            </ion-col>
+
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle" style="margin-left: 4px">
+                <ion-icon name="medical" style="color:#b92222"></ion-icon>
+                排口编号：
+
+            </ion-col>
+
+            <ion-input class="input" style="text-align: right; margin: 0px 17px 0px 0px;" [(ngModel)]="PutletDetail.pipeCode" position="floating" maxlength="20" row="1" placeholder="命名格式：北湖-1#">
+            </ion-input>
+        </ion-row>
+
+        <ion-row>
+            <ion-col class="rowstyle" style="margin-left: 4px">
+                <ion-icon name="medical" style="color:#b92222"></ion-icon>
+                湖泊名称：</ion-col>
+            <ion-col class="secondstyle" style="text-align: right;margin: 0px;" placeholder="请搜索湖泊..">
+                {{PutletDetail.lakeName}}
+            </ion-col>
+            <ion-col size="1" style="margin-right: 17px;">
+                <ion-icon style="padding: 18px 0px 0px 0px" name="arrow-forward" mode="ios" (click)="openSearchModal(true)"></ion-icon>
+            </ion-col>
+        </ion-row>
+
+        <!-- <ion-row>
+      <ion-col  class="rowstyle">所在地：</ion-col>
+      <ion-col style="padding:1rem 0 0 0; " cols="6" Properties="true" position="floating" >
+        {{PutletDetail.location}}
+   </ion-col>
+
+    </ion-row> -->
+        <ion-row>
+            <ion-col class="rowstyle">排口位置：</ion-col>
+            <ion-col class="secondstyle">
+                <ion-input class="in-input" [(ngModel)]="PutletDetail.pipeLocation" maxlength="20" style="  line-height: 10px; height: 31px;" placeholder="临近中环大厦..">
+                </ion-input>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-row>
+
+      <ion-col class="rowstyle" style="margin-left: 4px">
+          <ion-icon name="medical" style="color:#b92222"></ion-icon>
+          经度：</ion-col>
+      <ion-col class="secondstyle">
+        <ion-input
+          [(ngModel)]="PutletDetail.lon"
+          style="text-align: right;"
+          class="textstyle"
+          maxlength="20"
+          placeholder="39.122368"
+        ></ion-input>
+       
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="rowstyle" style="margin-left: 4px">
+          <ion-icon name="medical" style="color:#b92222">
+          </ion-icon>纬度：</ion-col>
+      <ion-col class="secondstyle">
+        <ion-input style="text-align: right;"
+          [(ngModel)]="PutletDetail.lat"
+          class="textstyle"
+          maxlength="20"
+          placeholder="11.122368"
+        ></ion-input>
+      
+      </ion-col>
+    </ion-row> -->
+        <ion-row style="border-bottom: 0.055px solid white;">
+            <ion-col class="rowstyle" style="margin-left: 4px;">
+                <ion-icon name="medical" style="color:#b92222"></ion-icon>
+                地理坐标：</ion-col>
+            <ion-col style="margin-right: 17px;padding:22px 0px 0px 6px" (click)="toMap()" size="1">
+                <div>
+                    <img src="../../../../assets/icon/location.png" alt="location" width="20px" height="23px" />
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle" style="margin-left: 4px" size="2.5">
+                <ion-icon name="medical" style="color:transparent"></ion-icon>
+                经度： </ion-col>
+            <ion-col class="secondstyle" style="margin-right: 5px">
+                <ion-input [(ngModel)]="PutletDetail.lon" class="textstyle" maxlength="20" placeholder="请精确到小数点后三位">
+                </ion-input>
+            </ion-col>
+            <ion-col class="rowstyle" size="2" style="margin-left: 4px">
+                <!-- <ion-icon name="medical"   style="color:#b92222"></ion-icon> -->
+                纬度： </ion-col>
+            <ion-col class="secondstyle" style="margin-right: 5px">
+                <ion-input [(ngModel)]="PutletDetail.lat" class="textstyle" maxlength="20" placeholder="请精确到小数点后三位">
+                </ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle" style="margin-left: 4px">
+                <ion-icon name="medical" style="color:#b92222"></ion-icon>
+                排口类型：</ion-col>
+            <ion-col class="secondstyle" (click)="pickerFn(1, putlatOptions[0].length, putlatOptions, 'putlat')">
+                <ion-col style="margin-left:10px;text-align: right" placeholder="请选择">{{ PutletDetail.pipeType }} </ion-col>
+                <ion-icon mode="ios" style=" margin: 0px" name="arrow-down">
+                </ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle" style="margin-left: 4px">
+                <ion-icon name="medical" style="color:#b92222"></ion-icon>
+                管道材质：</ion-col>
+            <ion-col class="secondstyle" (click)=" pickerFn(1, pipeTypeOptions[0].length, pipeTypeOptions, 'pipeType')">
+                <ion-col placeholder="请选择" style="margin-left:10px;text-align: right">
+                    {{ PutletDetail.pipeMaterialAuality }}</ion-col>
+                <ion-icon mode="ios" style=" margin: 0px" name="arrow-down">
+                </ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle" size="4">排口尺寸：</ion-col>
+            <ion-col class="secondstyle">
+                <ion-input class="in-input" [(ngModel)]="PutletDetail.pipeSize" (ionBlur)="toNotice(0,PutletDetail.pipeSize)" style=" height: 33px; line-height: 10px;" required axlength="20" placeholder="请输入整数">
+                </ion-input>
+                <ion-col class="location" size="2">mm</ion-col>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle" size="4">管底绝对高程：</ion-col>
+            <ion-col class="secondstyle">
+                <ion-input cols="6" [(ngModel)]="PutletDetail.pipeButtomElevation" (ionBlur)="toNotice(3,PutletDetail.pipeButtomElevation)" style=" height: 33px; line-height: 10px;text-align: right;" maxlength="20" placeholder="请精确到小数点后三位">
+                </ion-input>
+
+                <ion-col class="location" size="2">lm</ion-col>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle">水质感官：</ion-col>
+            <ion-col class="secondstyle" (click)=" pickerFn( 1, waterQualityOptions[0].length,  waterQualityOptions, 'waterQuality' )">
+                <ion-col style="margin-left:10px;text-align: right">
+                    {{ PutletDetail.waterQualitySense}}</ion-col>
+                <ion-icon mode="ios" style=" margin: 0px" name="arrow-down">
+                </ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle">备注：</ion-col>
+            <ion-col class="outletdetail" style="margin-right: 17px">
+                <ion-textarea [maxlength]='maxLength' [(ngModel)]="textLength" (ngModelChange)='TextOnChange()' class="input" style="text-align: right;padding: 1rem 0 0 0;" placeholder="..." position="floating" [(ngModel)]="PutletDetail.remarks">
+                </ion-textarea>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="rowstyle">现场照片：</ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- <ion-grid class="waterquality">
+    <div class="title"><span>水质监测数据</span></div>
+    <ion-row>
+      <ion-col class="rowstyle">监测时间：</ion-col>
+      <ion-col class="secondstyle">
+        <ion-datetime
+          [(ngModel)]="WaterMon.monitoringTime"
+          displayFormat="YYYY M "
+          min="1997"
+          max="2019"
+        ></ion-datetime>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="rowstyle">水量：</ion-col>
+      <ion-col class="secondstyle">
+        <ion-input
+          [(ngModel)]="WaterMon.waterPeriod"
+          (ionBlur)="getInteger(WaterMon.waterPeriod)"
+          placeholder="请输入水期.."
+        >
+          <span style="margin-left:10px"></span>
+        </ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="rowstyle">水期：</ion-col>
+      <ion-col class="secondstyle" (click)=" pickerFn(1, waterPeriodOption[0].length, waterPeriodOption, 'waterPeriod')">
+    <span style="margin-left:10px">{{ WaterMon.waterPeriod }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="rowstyle">PH：</ion-col>
+      <ion-col class="secondstyle">
+        <ion-input
+          [(ngModel)]="WaterMon.ph"
+          (ionBlur)="isFloat(WaterMon.ph, 2)"
+          placeholder="请输入PH.."
+        >
+          <span style="margin-left:10px"></span>
+        </ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="rowstyle">COD：</ion-col>
+      <ion-col class="secondstyle">
+        <ion-input
+          [(ngModel)]="WaterMon.cod"
+          (ionBlur)="isFloat(WaterMon.cod, 2)"
+          placeholder="请输入cod.."
+        >
+          <span style="margin-left:10px"></span>
+        </ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="4" (click)="presentModal(picture)" *ngFor="let item of picture" style="text-align:center">
+                <img [src]="item" style="margin: auto 0" alt="location" width="80px" height="80px" />
+            </ion-col>
+            <ion-col size="4" (click)="presentModal(imge)" *ngFor="let item of imge" style="text-align:center">
+                <img [src]="item" style="margin: auto 0" alt="location" width="80px" height="80px" />
+            </ion-col>
+            <ion-col size="4" style="padding: 18px 28px" style="text-align:center">
+                <img (click)="presentActionSheet()" src="../../../../assets/images/tabs-achives/add.png" alt="location" width="80px" height="80px" />
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer (click)="upload(true)" class="footer">
+    <ion-toolbar translucent="true">
+        <ion-title class="title">保存</ion-title>
+    </ion-toolbar>
+</ion-footer>

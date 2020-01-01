@@ -1,0 +1,116 @@
+// 头部
+.detaileHeader {
+    background-color: rgb(31, 126, 255);
+    ion-toolbar {
+        background-color: rgb(31, 126, 255);
+        ion-buttons {
+            background-color: rgb(31, 126, 255);
+        }
+    }
+    ion-title {
+        background-color: rgb(31, 126, 255);
+        font-size: 20px;
+        color: white;
+        line-height: 3;
+        text-align: center;
+        // position: fixed;
+        // right: 39%;
+        // top:25%;
+        // position: fixed; left:10px
+    }
+    .title {
+        background-color: rgb(31, 126, 255);
+        font-size: 20px;
+        color: white;
+        line-height: 3;
+        text-align: center;
+    }
+}
+
+// 水质监测
+.waterquality {
+    border-bottom: 10px solid rgb(243, 236, 236);
+    padding-top: 15px;
+    .title {
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 15px;
+        padding: 0 15px;
+    }
+    .boxhead {
+        background-color: rgb(242, 242, 242);
+        display: flex;
+        align-items: center;
+    }
+    ion-row {
+        display: flex;
+        align-items: center;
+        ion-col {
+            padding: 10px 0px;
+            border-right: 0.55px solid rgb(242, 242, 242);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.detaileContent {
+    // 数据列表
+    .listview {
+        #secondstylediv {
+            border-bottom: 10px solid rgb(243, 236, 236);
+        }
+        ion-row {
+            border: 0.055px solid rgb(243, 236, 236);
+            font-size: 14px;
+            .rowstyle {
+                color: #999;
+                margin: 15px 0px 15px 17px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+            }
+            .outletdetail {
+                color: #333;
+                margin: 15px 17px 15px 0px;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .secondstyle {
+                color: #333;
+                float: right;
+                margin: 7px 17px 7px 0;
+                // display:flex; 
+                // align-items:center;
+                // text-align:right;文本靠右
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+        }
+    }
+}
+
+.remark {
+    .title {
+        color: rgb(204, 204, 204);
+        margin-bottom: 15px;
+        padding: 0 15px;
+    }
+}
+
+//  照片现场
+.photofscene {
+    margin-bottom: 15px;
+    .title {
+        color: #333;
+        font-weight: bold;
+        margin: 15px 0px;
+        padding: 0 15px;
+    }
+}

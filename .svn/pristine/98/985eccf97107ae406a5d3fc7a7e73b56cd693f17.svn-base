@@ -1,0 +1,540 @@
+import { Injectable, NgZone } from '@angular/core';
+import { Storage } from '@ionic/storage'; //  引入本地存储
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx'; // 文件传输
+import { File } from '@ionic-native/file/ngx'; // 文件
+import { FileOpener } from '@ionic-native/file-opener/ngx'; // 文件打开
+import { ConfigService } from '../config-service/config.service';
+import { FiletransferService } from '../filetransfer-service/filetransfer.service';
+
+// tslint:disable-next-line:max-line-length
+import {
+  LoadingController,
+  ToastController,
+  AlertController,
+  Events,
+  ActionSheetController,
+  PopoverController,
+  MenuController,
+  ModalController
+} from '@ionic/angular'; // 引入loading
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; //  引入请求方式
+// import { access } from 'fs';
+
+declare let window;
+declare let navigator;
+
+/*
+*共用的服务
+ 使用说明：1需要安装的插件请见最下面.
+*/
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PublicService {
+
+  public loader = null;
+
+  public token: any;
+  public toast: any = null;
+  private headers: any;
+  public progressNum: any;
+  public alertControl: any;
+  public backButtonPressed = false;
+
+  constructor(
+    public events: Events,
+    public filetransferservice: FiletransferService,
+    public alertController: AlertController,
+    private storage: Storage,
+    private httpClient: HttpClient,
+    public file: File,
+    public transfer: FileTransfer,
+    public fileOpener: FileOpener,
+    public configService: ConfigService,
+    public loadingController: LoadingController,
+    public alertCtrl: AlertController,
+    public actionSheetCtrl: ActionSheetController,
+    public popoverCtrl: PopoverController,
+    public menuCtrl: MenuController,
+    public modalCtrl: ModalController,
+    public toastCtrl: ToastController,
+    private zone: NgZone) {
+  }
+
+  /**
+   * 配置GET请求方式
+   * @param  url 请求地址(必传)
+   * @param  params 参数(必传)
+   * @param  showloading 是否显示Loading框(必传)boolean值
+   * @param  callback 回调函数(必传)
+   */
+  async get(url, params, showloading, callback) {
+    if (showloading && !this.loader) {
+      this.presentLoading('');
+    }
+
+    this.httpClient.get(url, { responseType: 'json', params: this.httpParams(params) })
+      .subscribe(
+        res => {
+          if (showloading && this.loader) {
+            this.hideLoading(this.loader);
+          }
+          if (res) {
+            callback(res);
+          } else {
+            // this.thsToast('数据请求失败，请重试');
+            callback('error');
+          }
+
+        },
+        err => {
+          if (showloading && this.loader) {
+            this.hideLoading(this.loader);
+          }
+          // this.thsToast('数据请求失败，请重试');
+          callback('error');
+        }
+      );
+  }
+
+
+  async airpost(url, params, showloading, callback) {
+    let loader = null;
+    if (showloading) {
+      loader = await this.presentLoading();
+    }
+
+    this.httpClient.post(
+      url,
+      this.httpParams(params)
+    ).subscribe(
+      res => {
+        if (showloading) {
+          this.hideLoading(loader);
+        }
+        if (res) {
+          callback(res);
+        } else {
+          // this.thsToast('数据请求失败，请重试');
+          callback('error');
+        }
+      },
+      err => {
+        if (showloading) {
+          this.hideLoading(loader);
+        }
+        // this.thsToast('数据请求失败，请重试');
+        callback(err);
+      }
+    );
+  }
+
+  /**
+   * 响应头参数
+   */
+  httpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    };
+  }
+
+  /**
+   * params处理
+   * @param  param 调用函数传过来的参数，键值对形式
+   */
+  httpParams(param: Map<any, any>): HttpParams {
+    let ret = new HttpParams();
+    if (param) {
+      // tslint:disable-next-line:forin
+      for (const key in param) {
+        ret = ret.set(key, param[key]);
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * showloading服务
+   * @param template 展示内容(选传)
+   */
+  async presentLoading(template?) {
+    if (this.loader) {
+      return;
+    }
+    this.loader = await this.loadingController.create({
+      // message: template ? `<p>${template}</p>` : '',
+      // mode: 'ios',
+      spinner: 'circles',
+      duration: 1000
+    });
+    await this.loader.present();
+  }
+
+  /**
+   * 下载APP
+   * @param filename 文件名称
+   * @param content 提示内容
+   * @param packagename 包名
+   */
+  async downApp(filename, content, packagename?, appurl?, update?, status?) {
+    const alert = await this.alertController.create({
+      header: update ? '发现新版本，是否更新？' : '温馨提示',
+      message: update ? content : content,
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          cssClass: 'secondary cancelBtn',
+          handler: () => {
+            alert.dismiss();
+            if (status) {
+
+            }
+          }
+        }, {
+          text: '确认',
+          handler: () => {
+            alert.dismiss();
+            this.downFile(appurl, filename, 'application/vnd.android.package-archive', null, packagename);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  /**
+   * 下载文件
+   * @param url 文件路径
+   * @param filename 文件名称
+   * @param application 文件类型
+   * @param filesize 文件大小
+   * @param packagename 包名
+   */
+  async downFile(url, filename, application, filesize?, packagename?) {
+
+    const externalCacheDirectory = (this.file.externalCacheDirectory || this.file.cacheDirectory);
+
+    console.log(' in downFile externalCacheDirectory: ', externalCacheDirectory);
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    this.showLoadingAlert();
+    fileTransfer.download(url, externalCacheDirectory + filename, false)
+      .then(
+        (entry) => {
+          const openurl = entry.toURL();
+          this.openFile(externalCacheDirectory + filename, application, null);
+        },
+        (error) => {
+          this.zone.run(() => {
+            setTimeout(() => {
+              if (this.alertControl !== null) {
+                this.hideAlert();
+              }
+              this.events.publish('loadFail', false);
+              this.thsToast('文件下载失败，请重试');
+            }, 1000);
+          });
+        }
+      ).catch(
+        e => {
+          this.zone.run(() => {
+            setTimeout(() => {
+              if (alert !== null) {
+                this.hideAlert();
+              }
+              this.events.publish('loadFail', false);
+              this.thsToast('文件下载失败，请重试');
+            }, 1000);
+          });
+        }
+      );
+    fileTransfer.onProgress((event: ProgressEvent) => {
+      // alert(JSON.stringify(event));
+      if (filesize) {
+        this.progressNum = Math.floor(event.loaded / filesize * 100);
+      } else {
+        this.progressNum = Math.floor(event.loaded / event.total * 100);
+      }
+
+      this.events.publish('progressChange', this.progressNum, packagename);
+
+      if (this.progressNum >= 100) {
+
+        if (this.alertControl !== null) {
+          this.hideAlert();
+        }
+
+        this.events.publish('loadFail', false);
+
+      } else if (event.loaded > 0 && (event.total || filesize)) {
+
+        const progress = document.getElementsByClassName('loading')[0];
+        const downed = document.getElementsByClassName('downed')[0];
+
+        if (progress) {
+          progress['style'].display = 'block';
+          progress['style'].width = this.progressNum + '%';
+        }
+
+        if (downed) {
+          downed.innerHTML = '已经下载：' + this.progressNum + '%';
+        }
+
+      }
+    });
+  }
+
+  /**
+   * 打开文件
+   * @param filePosition  文件位置
+   * @param application  打开方式
+   * @param fileName 文件名称
+   */
+  openFile(filePosition, application, obj) {
+    this.fileOpener.open(filePosition, application).then(
+      () => {
+
+      }).catch(
+        e => {
+          this.thsToast('文件打开失败，请重试');
+        }
+      );
+  }
+
+  /**
+   * 显示下载进度框
+   */
+  async showLoadingAlert() {
+    this.alertControl = await this.alertController.create({
+      message: '<p class="title">正在下载，请稍等...</p><div class="progress">' +
+        '<span class="blue loading"></span></div><p class="downed">已经下载：0%</p>'
+    });
+    await this.alertControl.present();
+  }
+
+  /**
+   * 关闭下载进度框
+   */
+  hideAlert() {
+    this.alertControl.dismiss();
+    this.alertControl = null;
+  }
+
+
+  /* 获取本地数据 */
+  getStore(name: string) {
+    if (!name) {
+      return;
+    }
+    return this.storage.get(name);
+  }
+
+  /* 存储数据到本地 */
+  setStore(name: string, content: any) {
+    if (!name) {
+      return;
+    }
+    if (typeof content !== 'string') {
+      content = JSON.stringify(content);
+    }
+    this.storage.set(name, content);
+  }
+
+  /* 删除本地数据 */
+  removeStore(name: string) {
+    if (!name) {
+      return;
+    }
+    this.storage.remove(name);
+  }
+
+  /*
+   * toast提示框
+  */
+  async thsToast(txt: string, position?) {
+    if (this.toast) {
+      this.toast.dismiss();
+      this.toast = null;
+    }
+    this.toast = await this.toastCtrl.create({
+      message: txt,
+      duration: 1000,
+      position: position ? position : 'bottom',
+      cssClass: 'toast-message'
+    });
+    this.toast.present();
+  }
+
+  /**
+   * ---------------------------------- 进行数据请求
+   */
+
+  /**
+   * 关闭loading
+   * @param  loader 创建的loading对象
+   */
+  hideLoading(loader) {
+    loader.dismiss();
+  }
+
+
+  /**
+   * 发送HTTP请求post方法
+   * @param  url 发送请求的地址
+   * @param  params 发送到服务器的数据，键值对形式
+   * @param  success 发送请求成功的函数
+   * @param  error 发送请求失败的函数
+   * @param  flag 是否显示数据加载,false或不传参为显示，true不显示
+   */
+  async post(url, params, showloading, callback) {
+    if (showloading && this.loader) {
+      this.presentLoading('');
+    }
+
+    this.httpClient.post(
+      url,
+      this.httpParams(params)
+    ).subscribe(
+      res => {
+        if (showloading && this.loader) {
+          this.hideLoading(this.loader);
+        }
+        if (res) {
+          callback(res);
+          console.log(res, '请求成功');
+        } else {
+          // this.thsToast('数据请求失败，请重试');
+          callback('error');
+          console.log('服务器返回error');
+        }
+      },
+      err => {
+        if (showloading && this.loader) {
+          this.hideLoading(this.loader);
+        }
+        // this.thsToast('数据请求失败，请重试');
+        callback('error');
+        console.log('数据请求失败err', err);
+      }
+    );
+  }
+
+  /**
+   * 传入字符串
+   */
+  handlefigure(a, type) {
+    let arry;
+    arry = a.split('.');
+    console.log(arry.length);
+    switch (type) {
+      case 0:
+        let indexInt;
+        indexInt = Number(a);
+        // 如果要求判断是不是整数
+        // 如果传入的数字是小数
+        if (arry.length === 2) {
+          console.log('输入的数字是两位小数', a);
+          return Math.trunc(indexInt);
+        }// 如果传入的数字是整数
+        if (arry.length === 1) {
+          console.log('输入的数字是整数', indexInt);
+          return indexInt;
+        } else {
+          console.log('输入的数字不正确', indexInt);
+          return false;
+        }
+      case 3:
+        console.log(arry);
+        // 如果将字符串转换为小数，如果是2.3.3返回nan
+        let index;
+        index = Number(a);
+        // 如果要求判断数字是不是三位小数
+        if (arry.length === 2) {
+          console.log(index.toFixed(3));
+          return index.toFixed(3);
+        }
+        if (arry.length === 1) {
+          console.log('输入的数字是整数', index.toFixed(3));
+          return index.toFixed(3);
+        } else {
+          console.log('输入的数字不正确', a);
+          return false;
+        }
+      default:
+        break;
+    }
+  }
+
+  /**
+   * 判断是否有弹出层，有则关闭，没有则最小化应用
+   */
+  async androidBackButtonHandle(cangoBack) {
+
+    const alert = await this.alertCtrl.getTop();
+    if (alert) {
+      alert.dismiss();
+      return;
+    }
+    const action = await this.actionSheetCtrl.getTop();
+    if (action) {
+      action.dismiss();
+      return;
+    }
+    const popover = await this.popoverCtrl.getTop();
+    if (popover) {
+      popover.dismiss();
+      return;
+    }
+    const modal = await this.modalCtrl.getTop();
+    if (modal) {
+      modal.dismiss();
+      return;
+    }
+    const isOpen = await this.menuCtrl.isOpen();
+    if (isOpen) {
+      this.menuCtrl.close();
+      return;
+    }
+    console.log('没有可关闭的弹出层！', cangoBack);
+    if (!cangoBack) {
+      this.showExit();
+    }
+  }
+
+  /**
+   * app最小化的方法
+   */
+  showExit() {
+    // 如果为true，退出
+    console.log('this.backButtonPressed', this.backButtonPressed);
+    if (this.backButtonPressed) {
+      this.backButtonPressed = false;
+      // this.appMinimize.minimize();
+      navigator.app.exitApp(); // 退出app
+    } else {
+      // 第一次按，弹出Toast
+      this.thsToast('再按一次退出应用');
+      // 标记为true
+      this.backButtonPressed = true;
+      // 两秒后标记为false，如果退出的话，就不会执行了
+      setTimeout(() => this.backButtonPressed = false, 2000);
+    }
+  }
+
+  // 需要安装以下包
+
+  // npm install @ionic/storage
+
+  // ionic cordova plugin add cordova-plugin-file
+  // npm install @ionic-native/file
+
+  // ionic cordova plugin add cordova-plugin-file-transfer
+  // npm install @ionic-native/file-transfer
+
+  // ionic cordova plugin add cordova-plugin-file-opener
+  // npm install @ionic-native/file-opener
+}

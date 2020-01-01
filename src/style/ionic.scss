@@ -1,0 +1,237 @@
+/**
+ * 公共样式文件，
+ * 包括清除默认样式
+ */
+
+/**
+ * 清除默认样式
+ */
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Microsoft yahei";
+    height: 100%;
+    min-height: 100%;
+}
+
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+article,
+header,
+section,
+aside,
+footer,
+figcaption,
+figure,
+body,
+button,
+div,
+dl,
+dt,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+i,
+input,
+li,
+nav,
+p,
+select,
+span,
+textarea,
+ul {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-weight: normal;
+    font-style: normal;
+    font-family: "Microsoft yahei";
+    font-size: 14px;
+}
+
+a {
+    cursor: pointer;
+}
+
+img {
+    vertical-align: middle;
+    border: 0;
+}
+
+/* 清楚浮动 */
+
+.clear {
+    clear: both;
+}
+
+/* 超出点点 */
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 下拉刷新无数据样式
+.drop-down-fresh {
+    padding-top: 10px;
+}
+
+// 无数据处理
+.no-data-state {
+    line-height: 40px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+.no-data-img {
+    margin: 40% auto 0;
+    width: 160px;
+    height: 200px;
+    background: url(src/assets/images/no_data_img.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.no-data-img1 {
+    margin: 40% auto 0;
+    width: 160px;
+    height: 175px;
+    background-image:url(src/assets/imgs/zwdclsx_03.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+// 下拉显示样式设置
+.down-content {
+    position: relative;
+    top: -2px;
+    max-width: 85%;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+// 弹框样式
+.downLoadBox .alert-wrapper {
+    border-radius: 5px;
+}
+
+.downLoadBox .alert-title {
+    color: #333;
+    font-size: 14px !important;
+}
+
+.downLoadBox .alert-head {
+    padding: 5px 0 !important;
+}
+
+.downLoadBox .alert-radio-group {
+    padding: 5px 0;
+}
+
+.sc-ion-alert-ios-h .alert-button.sc-ion-alert-ios {
+    border-top: .55px solid rgba(0, 0, 0, .1) !important;
+    // border-right: .55px solid rgba(var(--ion-text-color-rgb, 0, 0, 0), .1) !important;
+
+    .alert-button-inner {
+        color: #3880ff !important;
+
+    }
+}
+
+.sc-ion-alert-ios-h .ion-activatable:last-of-type{
+  border-right: .55px solid rgba(0, 0, 0, .1) !important; 
+}
+
+.sc-ion-alert-ios-h .ion-activatable:last-of-type span{
+  font-weight: bolder;
+}
+
+// 设置全局toolbar样式
+ion-header {
+    ion-toolbar {
+        --background: #158CEA;
+        --padding-start: 10px;
+        --padding-end: 10px;
+        color: #fff;
+    }
+}
+ion-footer {
+    ion-toolbar {
+        --background: #158CEA;
+        --padding-start: 10px;
+        --padding-end: 10px;
+        color: #fff;
+    }
+}
+// 模态样式设置
+.modalCss {
+    --background: rgba(0, 0, 0, .5);
+}
+
+.loadingCss {
+    .innerCss {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background: rgba(0, 0, 0, .6);
+    }
+}
+
+// 头部样式
+ion-back-button {
+    --icon-font-size: 20px !important;
+    color: #fff !important;
+}
+
+ion-title {
+    font-weight: normal;
+}
+
+// 头部下划线
+.header-ios ion-toolbar:last-child {
+    --border-width: 0 0 0.35px;
+}
+
+// 修改toolbar样式
+.toolbar-style {
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-bottom: 0;
+    --padding-top: 0;
+    --background: #fff !important;
+}
+
+// 去掉tab的样式
+ion-tab-bar {
+    border-top: none !important;
+    // background: rgba(247, 247, 247, .8) !important;
+}
+
+ion-tab-button {
+    background: none !important;
+}

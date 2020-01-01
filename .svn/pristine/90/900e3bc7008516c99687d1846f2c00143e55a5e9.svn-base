@@ -1,0 +1,22 @@
+<ion-tabs #tabs>
+
+    <ion-tab-bar slot="bottom">
+
+        <ion-tab-button tab="track">
+            <ion-icon src="../../assets/fonts/track.svg"></ion-icon>
+            <ion-label>跟踪调查</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="archives">
+            <ion-icon src="../../assets/fonts/archives.svg"></ion-icon>
+            <ion-label>排口档案</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="static">
+            <ion-icon src="../../assets/fonts/static.svg"></ion-icon>
+            <ion-label>统计分析</ion-label>
+        </ion-tab-button>
+
+    </ion-tab-bar>
+
+</ion-tabs>

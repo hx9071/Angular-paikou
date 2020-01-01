@@ -1,0 +1,100 @@
+.rfHeader {
+  ion-title {
+    background-color: rgb(31, 126, 255);
+    font-size: 20px;
+    color: white;
+    line-height: 3;
+    text-align: center;
+  }
+}
+.rfContent {
+  .search {
+    --background: white;
+    ion-searchbar {
+      line-height: 36px;
+      --background: white;
+      // font-size: 20px;
+      border-radius: 0px;
+      // --placeholder-color: #b2b2b2;
+      --placeholder-color: #666;
+      --icon-color: #666;
+      text-align: left;
+      padding: 0px;
+      //height: 36px;
+      margin-top: 0;
+      position: absolute;
+      top: 0;
+    }
+  }
+
+  .content-card {
+    margin: 0 ;
+    border-radius: 0;
+    box-shadow: none;
+
+    &-search {
+      ion-searchbar {
+        padding: 0;
+        --icon-color: #839cbb;
+        --background: #eef2f6;
+        --placeholder-color: #839cbb;
+      }
+    }
+  }
+  .filelist {
+    border-top: 0.55px solid rgb(242, 242, 242);
+    border-bottom: 8px solid rgb(242, 242, 242);
+    padding: 0px 0px;
+    .outletadress {
+      margin-top: 15px;
+      font-size: 16px;
+      padding: 0 10px;
+      .name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .rowlistfirst {
+      display: flex;
+      justify-content: space-between;
+      margin:0px 0px  5px 0px;
+      padding: 0 15px;
+      font-size: 14px;
+      .lakename {
+        display: flex;
+        // align-items: center;
+        color: #666;
+        padding: 0px;
+      }
+      .readfile {
+        margin: 0 auto;
+        height: 27px;
+        width: 80px;
+        font-size: 13px;
+        // padding: 5px 4px;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30px;
+        background-color: rgb(56,127,255);
+      }
+    }
+
+    .rowlistsecond {
+      padding: 0 10px;
+      font-size: 15px;
+      .lakeadress {
+        display: flex;
+        align-items: center;
+        color: #666;
+      }
+      .location {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

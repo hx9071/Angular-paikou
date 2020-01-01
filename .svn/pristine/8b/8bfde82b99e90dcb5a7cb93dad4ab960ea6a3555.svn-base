@@ -1,0 +1,190 @@
+.tabs-track-content {
+
+  ion-label {
+    margin: 0;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .tabs-track {
+
+    // 位置复原按钮，默认不弹出
+    &-dot {
+      position: absolute;
+      right: 0;
+      bottom: 66px;
+      --min-height: 40px;
+      --background: transparent;
+      -webkit-transition: bottom .8s;
+         -moz-transition: bottom .8s;
+           -o-transition: bottom .8s;
+              transition: bottom .8s;
+
+      // 顶部图例按钮
+      &-top {
+        padding: 8px 16px;
+        right: auto;
+        bottom: auto;
+        left: 3%;
+        top: 3%;
+        font-size: 0.8em;
+        color: #555;
+        background: #fff;
+        border-radius: 50%;
+
+        img {
+          width: 26px;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
+      &-img {
+        padding: 6px;
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+        background: #fff;
+      }
+
+      // 位置复原按钮，弹出样式
+      &__showFooter {
+        bottom: 250px;
+      }
+
+    }
+
+    // 底部位置信息窗口，默认不弹出
+    &-footer {
+      position: absolute;
+      margin: 1em 3%;
+      bottom: 0;
+      height: 46px;
+      width: 94%;
+      overflow-y: hidden;
+      -webkit-transition: height .8s;
+         -moz-transition: height .8s;
+           -o-transition: height .8s;
+              transition: height .8s;
+
+      // 底部位置信息窗口，弹出样式
+      &-show {
+        height: 230px;
+
+        .tabs-track-footer-bd {
+          opacity: 1;
+        }
+      }
+
+      &-hd {
+        margin-bottom: .4em;
+        --min-height: 40px;
+
+        ion-label {
+          color: #555;
+        }
+
+        ion-img {
+          width: 20px;
+        }
+      }
+
+      &-bd {
+        opacity: 0;
+        -webkit-transition: opacity .8s;
+           -moz-transition: opacity .8s;
+             -o-transition: opacity .8s;
+                transition: opacity .8s;
+
+        .footer-bd {
+
+          &-title {
+            padding-top: .5em;
+            font-size: 1.25em;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          &-text {
+            --min-height: 40px;
+
+            span {
+              color: #939393;
+            }
+          }
+
+          &-button {
+            margin: 0;
+            height: 50px;
+            --background: -webkit-linear-gradient(left, #368ffe 50%, #5bb0ff);
+          }
+
+        }
+
+      }
+    }
+
+    // 图例弹框，默认隐藏
+    &-dialog {
+      position: absolute;
+      left: 3%;
+      top: 5%;
+      width: 46%;
+      color: #c5c5c5;
+      border-radius: 10px;
+      z-index: -2;
+      opacity: 0;
+      -webkit-transition: opacity .4s;
+         -moz-transition: opacity .4s;
+           -o-transition: opacity .4s;
+              transition: opacity .4s;
+
+      ion-item:first-child{
+        font-size: 1.2em;
+        color: #000;
+        border-bottom: 1px solid #f5f5f5;
+        border-radius: 6px 6px 0 0;
+      }
+
+      ion-item:last-child{
+        border-radius: 0 0 6px 6px;
+      }
+
+      // 图例弹框，显示样式
+      &-show {
+        z-index: 1000;
+        opacity: 1;
+      }
+    }
+
+    // 遮罩，默认隐藏
+    &-shade {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      z-index: -1;
+      opacity: 0;
+      -webkit-transition: opacity .4s;
+         -moz-transition: opacity .4s;
+           -o-transition: opacity .4s;
+              transition: opacity .4s;
+
+      // 遮罩，显示样式
+      &-show {
+        z-index: 999;
+        opacity: .3;
+      }
+    }
+
+  }
+
+}

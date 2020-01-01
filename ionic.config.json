@@ -1,0 +1,8 @@
+{
+  "name": "whpipeoutlet",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "fd6e6b7d"
+}

@@ -1,0 +1,48 @@
+{
+  "_from": "git+https://github.com/THS-FE/cn-com-ths-baidulocation.git",
+  "_id": "cn-com-ths-baidulocation@1.0.0",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cn-com-ths-baidulocation",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "git+https://github.com/THS-FE/cn-com-ths-baidulocation.git",
+    "rawSpec": "git+https://github.com/THS-FE/cn-com-ths-baidulocation.git",
+    "saveSpec": "git+https://github.com/THS-FE/cn-com-ths-baidulocation.git",
+    "fetchSpec": "https://github.com/THS-FE/cn-com-ths-baidulocation.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/THS-FE/cn-com-ths-baidulocation.git#495ca5c6cd63ba42df827bf31f5ba5e1a4876e86",
+  "_spec": "git+https://github.com/THS-FE/cn-com-ths-baidulocation.git",
+  "_where": "E:\\silu\\武汉排口\\whpipeoutlet",
+  "author": "",
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cn-com-ths-baidulocation",
+    "platforms": [
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "Baidu Location Plugin",
+  "engines": [
+    {
+      "name": "cordova-android",
+      "version": ">=4.0.0-dev"
+    }
+  ],
+  "keywords": [
+    "cordova",
+    "baidulocation",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "license": "Apache 2.0",
+  "name": "cn-com-ths-baidulocation",
+  "version": "1.0.0"
+}

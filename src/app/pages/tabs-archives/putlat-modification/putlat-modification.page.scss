@@ -1,0 +1,181 @@
+  // 头部
+  ion-header {
+      background-color: rgb(31, 126, 255);
+      ion-toolbar {
+          background-color: rgb(31, 126, 255);
+          ion-buttons {
+              background-color: rgb(31, 126, 255);
+          }
+      }
+      ion-title {
+          background-color: rgb(31, 126, 255);
+          // font-size: 20px;
+          color: white;
+          line-height: 3;
+          text-align: center;
+          // position: fixed;
+          // right: 39%;
+          // top:25%;
+          // position: fixed; left:10px
+      }
+      .title {
+          background-color: rgb(31, 126, 255);
+          font-size: 20px;
+          color: #666;
+          line-height: 3;
+          text-align: center;
+      }
+  }
+  
+  // 水质监测
+  .waterquality {
+      border-bottom: 10px solid rgb(243, 236, 236);
+      padding-top: 15px;
+      .title {
+          color: #333;
+          font-weight: bold;
+          margin-bottom: 15px;
+          padding: 0 15px;
+      }
+      .boxhead {
+          background-color: rgb(242, 242, 242);
+          display: flex;
+          align-items: center;
+      }
+      ion-row {
+          display: flex;
+          align-items: center;
+          ion-col {
+              padding: 10px 0px;
+              border-right: 0.55px solid rgb(242, 242, 242);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+      }
+  }
+  
+  ion-content {
+      // 数据列表
+      .listview {
+          ion-row {
+              border-bottom: 0.055px solid rgb(243, 236, 236);
+              font-size: 14px;
+              .rowstyle {
+                  color: #999;
+                  margin: 15px 0px 15px 17px;
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: center;
+                 
+              }
+          
+              .outletdetail {
+                  text-align: right;
+                  color: #333;
+                  // margin:15px 17px 15px 0px;
+                  display: flex;
+                  // margin-left: 17px;
+                  justify-content: flex-end;
+                  align-items: center;
+                  padding: 0px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  .textarea {
+                      height: 44px;
+                      line-height: 18px;
+                       ::-webkit-input-placeholder {
+                          padding-left: 50px;
+                          color: #777;
+                      }
+                      /* Mozilla Firefox 4 to 18 */
+                       :-moz-placeholder {
+                          color: #777;
+                          opacity: 1;
+                      }
+                      /* Mozilla Firefox 19+ */
+                       ::-moz-placeholder {
+                          color: #777;
+                          opacity: 1;
+                      }
+                      /* Internet Explorer 10+ */
+                       :-ms-input-placeholder {
+                          color: #777;
+                      }
+                  }
+              }
+              .secondstyle {
+                  color: #333;
+                  float: right;
+                  // margin:7px 7px 7px 0;
+                  margin: 0px 17px 0px 0px;
+                  // display:flex; 
+                  // align-items:center;
+                  // text-align:right;文本靠右
+                  display: flex;
+                  justify-content: flex-end;
+                  align-items: center;
+                  .textstyle {
+                      line-height: 10px;
+                      height: 31px;
+                      text-align: left;
+                  }
+              }
+          }
+      }
+  }
+  
+  .remark {
+      .title {
+          color: rgb(204, 204, 204);
+          margin-bottom: 15px;
+          padding: 0 15px;
+      }
+  }
+  
+  //  照片现场
+  .photofscene {
+      .title {
+          color: #666;
+          margin-bottom: 15px;
+          padding: 0 15px;
+      }
+  }
+  
+  .location {
+      display: flex;
+      justify-content: flex-end;
+  }
+  
+  .in-input {
+      text-align: right;
+  }
+  
+  .footer {
+      background-color: rgb(56, 127, 299);
+      ion-toolbar {
+          background-color: rgb(56, 127, 299);
+      }
+      ion-title {
+          background-color: rgb(56, 127, 299);
+          font-size: 17px;
+          color: white;
+          line-height: 3;
+          text-align: center;
+      }
+  }
+  
+  .content-card {
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+      &-search {
+          ion-searchbar {
+              padding: 0;
+              --icon-color: #839cbb;
+              --background: #eef2f6;
+              --placeholder-color: #839cbb;
+          }
+      }
+  }

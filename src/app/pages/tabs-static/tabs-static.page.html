@@ -1,0 +1,100 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            排口统计分析
+        </ion-title>
+
+        <ion-buttons slot="start">
+            <ion-button (click)="logout()">
+                注销
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="tabs-static-content"
+             color="light">
+
+    <!-- 关联搜索组件start -->
+    <app-search-modal *ngIf="isOpenSearch"
+                      [config]="searchConfig"
+                      (getSearchText)="shouldSearch($event)">
+    </app-search-modal>
+    <!-- 关联搜索组件end -->
+
+    <ng-container *ngIf="!isOpenSearch">
+
+        <ion-card class="content-card">
+
+            <!-- 搜索start -->
+            <ion-item class="content-card-search bottom-line"
+                      lines="none">
+
+                <ion-searchbar placeholder="请输入湖泊名称"
+                               [value]="searchParams.lakeName"
+                               mode="ios"
+                               (click)="openSearchModal(true)">
+
+                </ion-searchbar>
+
+            </ion-item>
+            <!-- 搜索end -->
+
+            <!-- 湖泊和排口数据start -->
+            <ion-item class="content-card-hd"
+                      lines="none">
+                <ion-label class="content-card-hd-label">
+                    {{lakeAndOutputList.length === 1 ? lakeAndOutputInfo.lakeName : '全市'}}总计
+                </ion-label>
+            </ion-item>
+
+            <ion-card-content class="content-card-bd">
+                <ion-item text-center
+                          lines="none"
+                          color="light">
+                    <ion-label *ngIf="lakeAndOutputList.length !== 1">湖泊
+                        <span class="blue-bold">{{lakeAndOutputInfo.lakeNum || 0}}</span> 个
+                    </ion-label>
+
+                    <ion-label>排口
+                        <span class="blue-bold">{{lakeAndOutputInfo.lakePipeNum || 0}}</span> 个
+                    </ion-label>
+                </ion-item>
+            </ion-card-content>
+            <!-- 湖泊和排口数据end -->
+
+        </ion-card>
+
+        <!-- 图表start -->
+        <ion-card class="content-card"
+                  *ngFor="let chartCard of CHART_CARDS_MODEL">
+
+            <ion-item class="content-card-hd bottom-line"
+                      lines="none">
+                <ion-label class="content-card-hd-label">{{chartCard.title}}</ion-label>
+            </ion-item>
+
+            <ion-card-content class="content-card-bd">
+
+                <div echarts
+                     class="charts"
+                     *ngIf="chartCard.options && isShowChartCardContent"
+                     [options]="chartCard.options"
+                     (chartInit)="onChartInit($event, chartCard.chartType)"
+                     (chartMouseOver)="onChartEvent($event, 'chartMouseOver', chartCard.chartType)"
+                     (chartMouseOut)="onChartEvent($event, 'chartMouseOut', chartCard.chartType)">
+                </div>
+
+                <div class="no-data-img"
+                     *ngIf="!chartCard.options">
+                </div>
+
+            </ion-card-content>
+        </ion-card>
+        <!-- 图表end -->
+
+    </ng-container>
+
+</ion-content>
+
+

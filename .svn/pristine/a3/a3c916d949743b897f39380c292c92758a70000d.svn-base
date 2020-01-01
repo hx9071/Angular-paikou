@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>跟踪调查</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div style="width: 100%;height: 100%;">
+    <app-ths-map (onMapLoaded)="onMapLoaded($event)" style="width: 100%;height: 100%;"> </app-ths-map>
+  </div>
+
+  <!-- 重置位置按钮--start -->
+  <div class="cur-loc" (click)="getCurrentLocation()"></div>
+  <!-- 重置位置按钮--end -->
+
+  <!-- 查看图例按钮--start -->
+  <div class="legend ion-text-center" (click)="toggleLegendDialog()">
+    <img src="assets/images/tabs-track/legend.png" alt="">
+    <p>图例</p>
+  </div>
+  <!-- 图例按钮--end -->
+
+  <!-- 图例模态框--start -->
+  <div class="tabs-track-dialog" [ngClass]="{'tabs-track-dialog-show' : isShowLegendModal}">
+    <ion-item lines="none">
+      <ion-label>图例</ion-label>
+    </ion-item>
+
+    <ion-item lines="none" *ngFor="let legendModal of LEGEND_MODAL_MODEL">
+      <ion-label>{{legendModal.name}}</ion-label>
+
+      <ion-thumbnail slot="start" class="tabs-track-dot-img">
+        <ion-img [src]="legendModal.imgUrl"></ion-img>
+      </ion-thumbnail>
+    </ion-item>
+
+  </div>
+  <!-- 图例模态框--end -->
+
+  <!-- 图例遮罩层 -->
+  <div class="tabs-track-shade" [ngClass]="{'tabs-track-shade-show' : isShowLegendModal}"
+    (click)="toggleLegendDialog()"></div>
+
+  <!-- 底部信息窗口--start -->
+  <div class="tabs-track-footer" [ngClass]="{'tabs-track-footer-show' : isShowFooterContent}">
+
+    <ion-item class="tabs-track-footer-hd" lines="none">
+      <ion-label>{{currentLocation.addr || '暂无位置信息'}}</ion-label>
+      <ion-img slot="start" class="location-dot" src="../../../assets/icon/location.png"></ion-img>
+    </ion-item>
+
+    <ion-item-group class="tabs-track-footer-bd">
+
+      <ion-item lines="none">
+        <ion-label class="footer-bd-title">{{selectedMakerInfo.pipeName || '--'}}</ion-label>
+      </ion-item>
+
+      <ion-item lines="none" class="footer-bd-text">
+        <ion-label><span>湖泊名称：</span> {{selectedMakerInfo.lakeName || '--'}}</ion-label>
+      </ion-item>
+
+      <ion-item lines="none" class="footer-bd-text">
+        <ion-label><span>排口位置：</span> {{selectedMakerInfo.pipeLocation || '--'}}</ion-label>
+      </ion-item>
+
+      <ion-button class="footer-bd-button" expand="full" [routerLink]="['/putlat-detail']"
+        [queryParams]="{uuid: selectedMakerInfo.uuid}">
+        查看档案
+      </ion-button>
+
+    </ion-item-group>
+
+  </div>
+  <!-- 底部信息窗口--end -->
+
+</ion-content>

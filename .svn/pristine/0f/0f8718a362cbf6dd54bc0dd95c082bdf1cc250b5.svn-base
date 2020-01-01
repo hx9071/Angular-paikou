@@ -1,0 +1,49 @@
+{
+  "_from": "cordova-plugin-ios-keychain@3.0.1",
+  "_id": "cordova-plugin-ios-keychain@3.0.1",
+  "_inBundle": false,
+  "_integrity": "sha1-xaBlQP73/sbMUTw6+w4Rpcy+Lms=",
+  "_location": "/cordova-plugin-ios-keychain",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova-plugin-ios-keychain@3.0.1",
+    "name": "cordova-plugin-ios-keychain",
+    "escapedName": "cordova-plugin-ios-keychain",
+    "rawSpec": "3.0.1",
+    "saveSpec": null,
+    "fetchSpec": "3.0.1"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-ios-keychain/-/cordova-plugin-ios-keychain-3.0.1.tgz",
+  "_shasum": "c5a06540fef7fec6cc513c3afb0e11a5ccbe2e6b",
+  "_spec": "cordova-plugin-ios-keychain@3.0.1",
+  "_where": "E:\\silu\\武汉排口\\whpipeoutlet",
+  "author": "",
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-ios-keychain",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "This plugin allows your app access to the iOS KeyChain from Cordova. See: https://developer.apple.com/library/mac/documentation/security/conceptual/keychainServConcepts/iPhoneTasks/iPhoneTasks.html",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=2.2.0"
+    }
+  ],
+  "keywords": [
+    "keychain",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "license": "Apache 2.0",
+  "name": "cordova-plugin-ios-keychain",
+  "version": "3.0.1"
+}

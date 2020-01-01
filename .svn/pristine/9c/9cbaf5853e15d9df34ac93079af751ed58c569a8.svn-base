@@ -1,0 +1,29 @@
+<ion-content class="c-search-modal">
+    <div class="search-box">
+
+        <ion-searchbar #input class="searchbar-input" [(ngModel)]="config.searchText" [placeholder]="config.searchPlaceholder" mode="ios" debounce="720" (ionChange)="searchList()" (ionClear)="closeSearchBox()">
+        </ion-searchbar>
+
+        <span class="cancle-btn" (click)="shouldSearch()">确定</span>
+    </div>
+
+    <div *ngIf="isShowResultList && resultList.length" class="search-list">
+
+        <ion-list lines="inset">
+
+            <ion-item *ngFor="let item of resultList" (click)="selectItem(item)" style="font-size: 14px">
+                {{item[this.config.searchKey]}}
+            </ion-item>
+
+        </ion-list>
+
+    </div>
+
+    <ion-infinite-scroll threshold="400px" (ionInfinite)="loadData($event)">
+
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="努力加载中...">
+        </ion-infinite-scroll-content>
+
+    </ion-infinite-scroll>
+
+</ion-content>
